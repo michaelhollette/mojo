@@ -1,6 +1,6 @@
 const { describe, it, expect, beforeAll, afterAll } = require('@jest/globals')
 const { User } = require('.')
-const db = require('../db/config')
+const {db}  = require('../db/config')
 
 // define in global scope
 let user
@@ -15,12 +15,36 @@ beforeAll(async () => {
 afterAll(async () => await db.close())
 
 describe('User', () => {
-  it('has an id', async () => {
+  test ('has an id', async () => {
     expect(user).toHaveProperty('id')
-  })
+  });
 
-  /**
-   * Create more tests
-   * E.g. check that the username of the created user is actually gandalf
-   */
+  test ('has a username', async () => {
+    expect(user).toHaveProperty('username')
+  });
+
+  test('has the correct username', async () => {
+    expect(user.username).toBe('gandalf');
+  });
+
+  test('id is a number in JavaScript', async () => {
+    expect(typeof user.id).toBe('number');
+  });
+  test ('username is a string in JavaScript', async () => {
+    expect(typeof user.username).toBe('string');
+  });
+
+  test('id is an INTEGER in SQL', async () => {
+    const attributes = User.rawAttributes;
+    expect(attributes.id.type.key).toBe('INTEGER');
+  });
+
+  test('username is a STRING in SQL', async () => {
+    const attributes = User.rawAttributes;
+    expect(attributes.username.type.key).toBe('STRING');
+  });
+
+
+
+ 
 })
